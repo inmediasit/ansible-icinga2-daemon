@@ -1,0 +1,83 @@
+---
+# icinga2 2.10.1 is in stretch-backports
+- name: Install https for apt (Debian)
+  apt: name=apt-transport-https state=present
+  become: yes
+
+- name: Remove Icinga2 Apt Key for Debian OS family
+  apt_key:
+    id: C6E319C334410682
+    state: absent
+  become: yes
+
+  # Debmon has been shut down and is not required any more
+- name: Remove Debmon Apt Key for Debian OS family (Debian)
+  apt_key:
+    id: DC0EE15A29D662D2
+    state: absent
+  become: yes
+
+- name: Remove Icinga2 Apt Repos for Debian OS family
+  apt_repository: repo='{{ item.repo }}'
+                  update_cache=yes
+                  state=absent
+  with_items: "{{ icinga2_deb_repos }}"
+  become: yes
+
+  # Debmon has been shut down and is not required any more
+- name: Remove Debmon Apt Repo for Debian OS family (Debian)
+  apt_repository: repo='{{ icinga2_debmon_repo }}'
+                  update_cache=yes
+                  state=absent
+  become: yes
+
+- name: Install stretch-backports repo (Debian)
+  apt_repository:
+        repo: deb https://deb.debian.org/debian/ stretch-backports main
+        state: present
+  become: yes
+
+# Check if Icinga is installed
+- stat:
+      path: /usr/sbin/icinga2
+  register: icinga2_file_stat
+  become: yes
+
+- name: Unhold Icinga packages
+  dpkg_selections:
+      name: "{{ item }}"
+      selection: install
+  with_items: "{{ icinga2_pkg }}"
+  when: icinga2_file_stat.stat.exists == True
+  become: yes
+
+- name: Install Icinga2 on Debian OS family
+  apt:
+      name: icinga2
+      default_release: stretch-backports
+      state: latest
+      update_cache: yes
+      install_recommends: no
+      autoremove: yes
+  become: yes
+
+# The package of libicinga2 is useless
+- name: Remove libicinga2
+  apt:
+      name: libicinga2
+      state: absent
+  become: yes
+
+- name: Install monitoring plugins
+  apt: name={{ item }}
+       install_recommends=no
+  with_items: "{{ icinga2_monitoring_plugins }}"
+
+- name: Copy check_linux_memory
+  copy:
+      src: "check_linux_memory"
+      dest: "/usr/lib/nagios/plugins"
+      group: root
+      owner: root
+      mode: 0755
+  become: yes

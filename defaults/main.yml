@@ -1,0 +1,40 @@
+---
+# defaults file for ansible-icinga2-daemon
+
+icinga2_debian_version: "2.9.1-1"
+icinga2_rhel_version: "2.10.1-1.el{{ ansible_distribution_major_version }}.icinga"
+
+icinga2_port: "5665"
+
+icinga2_key: "https://packages.icinga.com/icinga.key"
+
+icinga2_deb_repos:
+ - { repo: "deb https://packages.icinga.com/{{ ansible_distribution|lower }} icinga-{{ ansible_distribution_release }} main" }
+ - { repo: "deb-src https://packages.icinga.com/{{ ansible_distribution|lower }} icinga-{{ ansible_distribution_release }} main" }
+icinga2_debmon_repo: "deb http://debmon.org/debmon debmon-{{ ansible_distribution_release }} main"
+
+icinga2_pkg:
+ - icinga2
+ - icinga2-bin
+ - icinga2-common
+ - libicinga2
+
+icinga2_monitoring_plugins:
+ - nagios-plugins
+
+icinga2_use_public_yum_repo: True
+icinga2_url_yum: "https://packages.icinga.com/epel/icinga-rpm-release-{{ ansible_distribution_major_version}}-latest.noarch.rpm"
+icinga2_url_yum_epel: "https://download.fedoraproject.org/pub/epel/$releasever/$basearch/"
+
+icinga2_yum:
+ - icinga2
+ - icinga2-common
+ - icinga2-bin
+
+icinga2_monitoring_plugins_rhel:
+ - epel-release
+ - nagios-plugins-all
+ - nagios-plugins-check-updates
+
+icinga2_main_conf: "/etc/icinga2/icinga2.conf"
+icinga2_conf_d: "/etc/icinga2/conf.d"

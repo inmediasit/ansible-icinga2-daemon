@@ -1,0 +1,42 @@
+---
+- name: Create directory /var/lib/icinga2/certs (Debian)
+  file:
+    path: /var/lib/icinga2/certs
+    state: directory
+    owner: nagios
+    group: nagios
+    mode: 0700
+  become: yes
+  when: ansible_os_family == 'Debian'
+
+- name: Create directory /var/lib/icinga2/certs (RedHat)
+  file:
+    path: /var/lib/icinga2/certs
+    state: directory
+    owner: icinga
+    group: icinga
+    mode: 0700
+  become: yes
+  when: ansible_os_family == 'RedHat'
+
+- stat: path=/var/lib/icinga2/certs/ca.crt
+  register: icinga2_cert_file
+  become: yes
+
+- name: Request the master certificate from the master host
+  command: "icinga2 pki save-cert --key /var/lib/icinga2/certs/{{ icinga2_node_cn }}.key --cert /var/lib/icinga2/certs/{{ icinga2_node_cn }}.crt --trustedcert /var/lib/icinga2/certs/trusted-master.crt --host {{ icinga2_parent_address }}"
+  when: icinga2_cert_file.stat.exists == False
+  become: yes
+
+- name: Icinga node setup
+  command: "icinga2 node setup --ticket {{ icinga2_ticket }} --cn {{ icinga2_node_cn }} --endpoint {{ icinga2_parent_cn }},{{ icinga2_parent_address }} --zone {{ icinga2_node_cn }} --parent_zone master --parent_host {{ icinga2_parent_address }} --trustedcert /var/lib/icinga2/certs/trusted-master.crt --accept-commands --accept-config --disable-confd"
+  when: icinga2_cert_file.stat.exists == False
+  become: yes
+
+- name: Remove trusted-master.crt
+  file:
+    path: /var/lib/icinga2/certs/trusted-master.crt
+    state: absent
+  notify:
+    - restart icinga2
+  become: yes
