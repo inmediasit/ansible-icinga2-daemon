@@ -1,6 +1,6 @@
 ---
 # icinga2 2.10.1 is in stretch-backports
-- name: Install https for apt (Debian)
+- name: Install https for apt (Debian {{ ansible_distribution_release }})
   apt: name=apt-transport-https state=present
   become: yes
 
@@ -11,7 +11,7 @@
   become: yes
 
   # Debmon has been shut down and is not required any more
-- name: Remove Debmon Apt Key for Debian OS family (Debian)
+- name: Remove Debmon Apt Key for Debian OS family (Debian {{ ansible_distribution_release }})
   apt_key:
     id: DC0EE15A29D662D2
     state: absent
@@ -25,15 +25,15 @@
   become: yes
 
   # Debmon has been shut down and is not required any more
-- name: Remove Debmon Apt Repo for Debian OS family (Debian)
+- name: Remove Debmon Apt Repo for Debian OS family (Debian {{ ansible_distribution_release }})
   apt_repository: repo='{{ icinga2_debmon_repo }}'
                   update_cache=yes
                   state=absent
   become: yes
 
-- name: Install stretch-backports repo (Debian)
+- name: Install stretch-backports repo (Debian {{ ansible_distribution_release }})
   apt_repository:
-        repo: deb https://deb.debian.org/debian/ stretch-backports main
+        repo: "deb https://deb.debian.org/debian/ {{ ansible_distribution_release }}-backports main"
         state: present
   become: yes
 
@@ -51,7 +51,7 @@
   when: icinga2_file_stat.stat.exists == True
   become: yes
 
-- name: Install Icinga2 on Debian OS family
+- name: Install Icinga2 on Debian OS family (Debian stretch)
   apt:
       name: icinga2
       default_release: stretch-backports
@@ -59,6 +59,17 @@
       update_cache: yes
       install_recommends: no
       autoremove: yes
+  when: ansible_distribution_release == 'stretch'
+  become: yes
+
+- name: Install Icinga2 on Debian OS family (Debian {{ ansible_distribution_release }})
+  apt:
+      name: icinga2
+      state: present
+      update_cache: yes
+      install_recommends: no
+      autoremove: yes
+  when: (ansible_distribution == "Debian") and (ansible_distribution_major_version|int >= 10)
   become: yes
 
 # The package of libicinga2 is useless
