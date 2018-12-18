@@ -83,6 +83,7 @@
   apt: name={{ item }}
        install_recommends=no
   with_items: "{{ icinga2_monitoring_plugins }}"
+  become: yes
 
 - name: Copy check_linux_memory
   copy:
