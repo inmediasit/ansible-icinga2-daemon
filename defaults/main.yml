@@ -2,7 +2,7 @@
 # defaults file for ansible-icinga2-daemon
 
 icinga2_debian_version: "2.9.1-1"
-icinga2_rhel_version: "2.10.1-1.el{{ ansible_distribution_major_version }}.icinga"
+icinga2_rhel_version: "2.10.2-1.el{{ ansible_distribution_major_version }}.icinga"
 
 icinga2_port: "5665"
 
