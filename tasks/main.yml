@@ -2,6 +2,7 @@
 # tasks file for ansible-icinga2-daemon
 
 - include_tasks: icinga2_ticket.yml
+  when: icinga2_ticket is undefined and icinga_api_gen_ticket is defined
 
 - include_tasks: icinga2_Debian_install.yml
   when: (ansible_os_family == "Debian" and ansible_distribution_major_version|int <= 8) or (ansible_distribution == "Ubuntu")

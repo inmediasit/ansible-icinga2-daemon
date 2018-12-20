@@ -14,9 +14,7 @@
     validate_certs: no
     return_content: yes
   register: ticket_response
-  when: icinga2_ticket is undefined and icinga_api_gen_ticket is defined
     
 - name: Registering the API token variable.
   set_fact:
     icinga2_ticket: "{{ ticket_response.json.results[0].ticket }}"
-  when: icinga2_ticket is undefined and icinga_api_gen_ticket is defined
