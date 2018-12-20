@@ -1,0 +1,20 @@
+---
+- name: Requesting a token from the Icinga API
+  uri:
+    url: "{{ icinga2_api_gen_ticket }}"
+    method: POST
+    body_format: json
+    body:
+      cn: "{{ icinga2_node_cn }}"
+    headers:
+      Accept: "application/json"
+    user: "{{ icinga2_api_user }}"
+    password: "{{ icinga2_api_pwd }}"
+    force_basic_auth: yes
+    validate_certs: no
+    return_content: yes
+  register: ticket_response
+    
+- name: Registering the API token variable
+  set_fact:
+    icinga2_ticket: "{{ ticket_response.json.results[0].ticket }}"
