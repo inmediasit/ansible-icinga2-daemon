@@ -16,13 +16,13 @@ Role Variables
 | `icinga2_node_cn` | Common Name of the Node | **undefined** |
 | `icinga2_parent_cn` | Common Name of the parent Node | **undefined** |
 | `icinga2_parent_address` | IP addresse or FQDN of the parent Node | **undefined** |
-| `icinga2_ticket` | Request ticket. You can also generate this automatically by providing `icinga_api_gen_ticket`, `icinga_api_user` and `icinga_api_pwd`. | **undefined** |
+| `icinga2_ticket` | Request ticket. You can also generate this automatically by providing `icinga2_api_gen_ticket`, `icinga2_api_user` and `icinga2_api_pwd`. | **undefined** |
 | `icinga2_port` | Defines the port where Icinga is bound | 5665 |
 | `icinga2_debian_version` | Defines Icinga version to be used for Debian | 2.9.1-1 |
 | `icinga2_rhel_version` | Defines Icinga version to be used for RHEL | "2.10.1-1.el{{ ansible_distribution_major_version }}.icinga" |
-| `icinga_api_gen_ticket` | Defines the API endpoint for ticket requests | **undefined** |
-| `icinga_api_user` | Username for the Icinga API  | **undefined** |
-| `icinga_api_pwd` | User password for the Icinga API | **undefined** |
+| `icinga2_api_gen_ticket` | Defines the API endpoint for ticket requests | **undefined** |
+| `icinga2_api_user` | Username for the Icinga API  | **undefined** |
+| `icinga2_api_pwd` | User password for the Icinga API | **undefined** |
 
 Dependencies
 ------------
@@ -43,9 +43,9 @@ Example Playbook
     icinga2_ticket: cf4ed9297b7a4c838ada1ba709e9befb1afa6526
 
     # or this
-    icinga_api_gen_ticket: "https://icinga-master.example.net:5665/v1/actions/generate-ticket"
-    icinga_api_user: root
-    icinga_api_pwd: hunter7
+    icinga2_api_gen_ticket: "https://icinga-master.example.net:5665/v1/actions/generate-ticket"
+    icinga2_api_user: root
+    icinga2_api_pwd: hunter2
   roles:
     - ansible-icinga2-daemon
 ```
