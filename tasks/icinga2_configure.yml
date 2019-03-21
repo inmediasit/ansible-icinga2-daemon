@@ -28,9 +28,14 @@
   when: icinga2_cert_file.stat.exists == False
   become: yes
 
-- name: Icinga node setup
+- name: Icinga node setup (Agent)
   command: "icinga2 node setup --ticket {{ icinga2_ticket }} --cn {{ icinga2_node_cn }} --endpoint {{ icinga2_parent_cn }},{{ icinga2_parent_address }} --zone {{ icinga2_node_cn }} --parent_zone master --parent_host {{ icinga2_parent_address }} --trustedcert /var/lib/icinga2/certs/trusted-master.crt --accept-commands --accept-config --disable-confd"
-  when: icinga2_cert_file.stat.exists == False
+  when: icinga2_cert_file.stat.exists == False and icinga2_zone is undefined
+  become: yes
+
+- name: Icinga node setup (Satellite)
+  command: "icinga2 node setup --ticket {{ icinga2_ticket }} --cn {{ icinga2_node_cn }} --endpoint {{ icinga2_parent_cn }},{{ icinga2_parent_address }} --zone {{ icinga2_zone }} --parent_zone master --parent_host {{ icinga2_parent_address }} --trustedcert /var/lib/icinga2/certs/trusted-master.crt --accept-commands --accept-config"
+  when: icinga2_cert_file.stat.exists == False and icinga2_zone is defined
   become: yes
 
 - name: Remove trusted-master.crt

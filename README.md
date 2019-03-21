@@ -16,6 +16,7 @@ Role Variables
 | `icinga2_node_cn` | Common Name of the Node | **undefined** |
 | `icinga2_parent_cn` | Common Name of the parent Node | **undefined** |
 | `icinga2_parent_address` | IP addresse or FQDN of the parent Node | **undefined** |
+| `icinga2_zone` | Defines the zone of the Icinga node. **This is only needed for satellite nodes** | **undefined** |
 | `icinga2_ticket` | Request ticket. You can also generate this automatically by providing `icinga2_api_gen_ticket`, `icinga2_api_user` and `icinga2_api_pwd`. | **undefined** |
 | `icinga2_port` | Defines the port where Icinga is bound | 5665 |
 | `icinga2_debian_version` | Defines Icinga version to be used for Debian | 2.9.1-1 |
