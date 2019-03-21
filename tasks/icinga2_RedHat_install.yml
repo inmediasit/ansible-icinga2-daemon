@@ -5,23 +5,10 @@
     key:  https://packages.icinga.com/icinga.key
   become: yes
 
-- name: Import EPEL GPG Key
-  rpm_key:
-    state: present
-    key: "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
-  become: yes
-
 - name: Get Icinga2 Yum Repo on RedHat OS family
   yum:
     name: "{{ icinga2_url_yum }}"
     state: present
-  become: yes
-
-- name: Get EPEL Yum Repo on RedHat OS family
-  yum_repository:
-    name: epel
-    description: EPEL Yum repo
-    baseurl: "{{ icinga2_url_yum_epel }}"
   become: yes
 
 - name: Install Icinga Packages on RedHat OS family

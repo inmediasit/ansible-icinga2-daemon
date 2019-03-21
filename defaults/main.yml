@@ -24,7 +24,6 @@ icinga2_monitoring_plugins:
 
 icinga2_use_public_yum_repo: True
 icinga2_url_yum: "https://packages.icinga.com/epel/icinga-rpm-release-{{ ansible_distribution_major_version}}-latest.noarch.rpm"
-icinga2_url_yum_epel: "https://download.fedoraproject.org/pub/epel/$releasever/$basearch/"
 
 icinga2_yum:
  - icinga2
