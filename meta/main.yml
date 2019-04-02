@@ -1,3 +1,4 @@
 galaxy_info:
   author: inmediasit
-  description: This role installes a basic setup for an Icinga 2 agent or satellite on Linux.
+  description: This role installs a basic setup for an Icinga 2 agent or satellite on Linux.
+  
