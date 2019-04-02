@@ -1,7 +1,7 @@
 Ansible Role: icinga2 daemon
 =========
 
-This role installes a basic setup for an Icinga 2 agent or satellite on Linux.
+This role installs a basic setup for an Icinga 2 agent or satellite on Linux.
 
 Requirements
 ------------
