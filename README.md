@@ -19,8 +19,8 @@ Role Variables
 | `icinga2_zone` | Defines the zone of the Icinga node. **This is only needed for satellite nodes** | **undefined** |
 | `icinga2_ticket` | Request ticket. You can also generate this automatically by providing `icinga2_api_gen_ticket`, `icinga2_api_user` and `icinga2_api_pwd`. | **undefined** |
 | `icinga2_port` | Defines the port where Icinga is bound | 5665 |
-| `icinga2_debian_version` | Defines Icinga version to be used for Debian | 2.9.1-1 |
-| `icinga2_rhel_version` | Defines Icinga version to be used for RHEL | "2.10.1-1.el{{ ansible_distribution_major_version }}.icinga" |
+| `icinga2_debian_version` | Defines Icinga version to be used for Debian | 2.10.3-2 |
+| `icinga2_rhel_version` | Defines Icinga version to be used for RHEL | "2.10.3-1.el{{ ansible_distribution_major_version }}.icinga" |
 | `icinga2_api_gen_ticket` | Defines the API endpoint for ticket requests | **undefined** |
 | `icinga2_api_user` | Username for the Icinga API  | **undefined** |
 | `icinga2_api_pwd` | User password for the Icinga API | **undefined** |
