@@ -17,7 +17,6 @@ icinga2_pkg:
  - icinga2
  - icinga2-bin
  - icinga2-common
- - libicinga2
 
 icinga2_monitoring_plugins:
  - nagios-plugins
