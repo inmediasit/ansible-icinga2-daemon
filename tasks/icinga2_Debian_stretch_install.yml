@@ -31,7 +31,7 @@
                   state=absent
   become: yes
 
-- name: Install stretch-backports repo (Debian {{ ansible_distribution_release }})
+- name: Install {{ ansible_distribution_release }}-backports repo (Debian {{ ansible_distribution_release }})
   apt_repository:
         repo: "deb https://deb.debian.org/debian/ {{ ansible_distribution_release }}-backports main"
         state: present
