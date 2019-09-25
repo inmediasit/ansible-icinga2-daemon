@@ -14,9 +14,9 @@ icinga2_deb_repos:
 icinga2_debmon_repo: "deb http://debmon.org/debmon debmon-{{ ansible_distribution_release }} main"
 
 icinga2_pkg:
- - icinga2
- - icinga2-bin
- - icinga2-common
+ - "icinga2-{{ icinga2_rhel_version }}"
+ - "icinga2-bin-{{ icinga2_rhel_version }}"
+ - "icinga2-common-{{ icinga2_rhel_version }}"
 
 icinga2_monitoring_plugins:
  - nagios-plugins

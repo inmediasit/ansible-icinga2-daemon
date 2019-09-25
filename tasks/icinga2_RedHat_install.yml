@@ -12,15 +12,28 @@
   become: yes
 
 - name: Install Icinga Packages on RedHat OS family
-  action: >
-    {{ ansible_pkg_mgr }} name="{{ item }}-{{ icinga2_rhel_version }}" state=present update_cache=yes
-  with_items: '{{ icinga2_yum }}'
+  yum:
+    name: "{{ item }}"
+  loop: "{{ icinga2_yum }}"
+  become: yes
+
+- name: Install yum-plugin-versionlock
+  yum:
+    name: yum-plugin-versionlock
+  become: yes
+
+- name: versionlock Icinga Packages on RedHat OS family
+  command: yum versionlock "{{ item }}-{{ icinga2_rhel_version }}"
+  loop: '{{ icinga2_yum }}'
+  args:
+    warn: false
   become: yes
 
 - name: Install monitoring plugins
-  action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state=present update_cache=no
-  with_items: '{{ icinga2_monitoring_plugins_rhel }}'
+  yum:
+    name: '{{ icinga2_monitoring_plugins_rhel }}'
+    state: present
+    update_cache: no
   become: yes
 
 - name: Copy check_linux_memory
