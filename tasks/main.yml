@@ -2,10 +2,10 @@
 # tasks file for ansible-icinga2-daemon
 
 - include_tasks: icinga2_Debian_install.yml
-  when: (ansible_os_family == "Debian" and ansible_distribution_major_version|int <= 8) or (ansible_distribution == "Ubuntu")
+  when: (ansible_os_family == "Debian" and ansible_distribution_major_version|int <= 8 and not ansible_distribution_major_version|int <= 7) or (ansible_distribution == "Ubuntu")
 
 - include_tasks: icinga2_Debian_stretch_install.yml
-  when: ansible_distribution == "Debian" and ansible_distribution_major_version|int >= 9
+  when: (ansible_distribution == "Debian" and ansible_distribution_major_version|int >= 9) or (ansible_distribution_release == "stretch") or (ansible_distribution_release == "buster")
 
 - include_tasks: icinga2_RedHat_install.yml
   when: ansible_os_family == 'RedHat'
